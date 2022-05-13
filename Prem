@@ -1,0 +1,255 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local AutoRobDh = Instance.new("TextButton")
+local TextLabel = Instance.new("TextLabel")
+local TextLabel_2 = Instance.new("TextLabel")
+local Fly = Instance.new("TextLabel")
+local Sign = Instance.new("TextButton")
+local PitchFork = Instance.new("TextButton")
+local Animations = Instance.new("TextButton")
+local Bat = Instance.new("TextButton")
+local TextButton = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+Frame.BorderColor3 = Color3.fromRGB(31, 31, 31)
+Frame.Position = UDim2.new(0.301027507, 0, 0.165009975, 0)
+Frame.Size = UDim2.new(0, 322, 0, 257)
+
+AutoRobDh.Name = "AutoRobDh"
+AutoRobDh.Parent = Frame
+AutoRobDh.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+AutoRobDh.BorderColor3 = Color3.fromRGB(15, 15, 15)
+AutoRobDh.Position = UDim2.new(0.0402018577, 0, 0.0506239086, 0)
+AutoRobDh.Size = UDim2.new(0, 76, 0, 32)
+AutoRobDh.Font = Enum.Font.RobotoCondensed
+AutoRobDh.Text = "Autofarm"
+AutoRobDh.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoRobDh.TextSize = 14.000
+AutoRobDh.MouseButton1Down:connect(function()
+	loadstring(game:HttpGet('https://pastebin.com/raw/3L5CTn8J'))() 
+end)
+--example true
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+TextLabel.BorderColor3 = Color3.fromRGB(15, 15, 15)
+TextLabel.Position = UDim2.new(-0.279503107, 0, -0.00205287128, 0)
+TextLabel.Size = UDim2.new(0, 90, 0, 259)
+TextLabel.Font = Enum.Font.PermanentMarker
+TextLabel.Text = ""
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextSize = 14.000
+
+TextLabel_2.Parent = Frame
+TextLabel_2.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+TextLabel_2.BorderColor3 = Color3.fromRGB(15, 15, 15)
+TextLabel_2.Position = UDim2.new(-0.279503107, 0, -0.00389105058, 0)
+TextLabel_2.Size = UDim2.new(0, 90, 0, 37)
+TextLabel_2.Font = Enum.Font.Ubuntu
+TextLabel_2.Text = "SynerX"
+TextLabel_2.TextColor3 = Color3.fromRGB(185, 187, 194)
+TextLabel_2.TextSize = 28.000
+
+Fly.Name = "Fly"
+Fly.Parent = Frame
+Fly.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Fly.BorderColor3 = Color3.fromRGB(15, 15, 15)
+Fly.Position = UDim2.new(0.363354057, 0, 0.252958566, 0)
+Fly.Size = UDim2.new(0, 80, 0, 32)
+Fly.Font = Enum.Font.RobotoMono
+Fly.Text = "Fly (X)"
+Fly.TextColor3 = Color3.fromRGB(255, 255, 255)
+Fly.TextSize = 14.000
+Flyx.TextWrapped = true
+Flyx.MouseButton1Down:connect(function()
+	local plr = game.Players.LocalPlayer
+	local mouse = plr:GetMouse()
+
+	localplayer = plr
+
+	if workspace:FindFirstChild("Core") then
+		workspace.Core:Destroy()
+	end
+
+	local Core = Instance.new("Part")
+	Core.Name = "Core"
+	Core.Size = Vector3.new(0.05, 0.05, 0.05)
+
+	spawn(function()
+		Core.Parent = workspace
+		local Weld = Instance.new("Weld", Core)
+		Weld.Part0 = Core
+		Weld.Part1 = localplayer.Character.LowerTorso
+		Weld.C0 = CFrame.new(0, 0, 0)
+	end)
+
+	workspace:WaitForChild("Core")
+
+	local torso = workspace.Core
+	flying = true
+	local speed=10
+	local keys={a=false,d=false,w=false,s=false}
+	local e1
+	local e2
+	local function start()
+		local pos = Instance.new("BodyPosition",torso)
+		local gyro = Instance.new("BodyGyro",torso)
+		pos.Name="EPIXPOS"
+		pos.maxForce = Vector3.new(math.huge, math.huge, math.huge)
+		pos.position = torso.Position
+		gyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+		gyro.cframe = torso.CFrame
+		repeat
+			wait()
+			localplayer.Character.Humanoid.PlatformStand=true
+			local new=gyro.cframe - gyro.cframe.p + pos.position
+			if not keys.w and not keys.s and not keys.a and not keys.d then
+				speed=5
+			end
+			if keys.w then
+				new = new + workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+				speed=speed+0
+			end
+			if keys.s then
+				new = new - workspace.CurrentCamera.CoordinateFrame.lookVector * speed
+				speed=speed+0
+			end
+			if keys.d then
+				new = new * CFrame.new(speed,0,0)
+				speed=speed+0
+			end
+			if keys.a then
+				new = new * CFrame.new(-speed,0,0)
+				speed=speed+0
+			end
+			if speed>10 then
+				speed=5
+			end
+			pos.position=new.p
+			if keys.w then
+				gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(-math.rad(speed*0),0,0)
+			elseif keys.s then
+				gyro.cframe = workspace.CurrentCamera.CoordinateFrame*CFrame.Angles(math.rad(speed*0),0,0)
+			else
+				gyro.cframe = workspace.CurrentCamera.CoordinateFrame
+			end
+		until flying == false
+		if gyro then gyro:Destroy() end
+		if pos then pos:Destroy() end
+		flying=false
+		localplayer.Character.Humanoid.PlatformStand=false
+		speed=10
+	end
+	e1=mouse.KeyDown:connect(function(key)
+		if not torso or not torso.Parent then flying=false e1:disconnect() e2:disconnect() return end
+		if key=="w" then
+			keys.w=true
+		elseif key=="s" then
+			keys.s=true
+		elseif key=="a" then
+			keys.a=true
+		elseif key=="d" then
+			keys.d=true
+		elseif key=="x" then
+			if flying==true then
+				flying=false
+			else
+				flying=true
+				start()
+			end
+		end
+	end)
+	e2=mouse.KeyUp:connect(function(key)
+		if key=="w" then
+			keys.w=false
+		elseif key=="s" then
+			keys.s=false
+		elseif key=="a" then
+			keys.a=false
+		elseif key=="d" then
+			keys.d=false
+		end
+	end)
+	start()
+end)
+
+Sign.Name = "Sign"
+Sign.Parent = Frame
+Sign.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Sign.BorderColor3 = Color3.fromRGB(15, 15, 15)
+Sign.Position = UDim2.new(0.341614902, 0, 0.0505836569, 0)
+Sign.Size = UDim2.new(0, 94, 0, 32)
+Sign.Font = Enum.Font.RobotoCondensed
+Sign.Text = "StopSign"
+Sign.TextColor3 = Color3.fromRGB(255, 255, 255)
+Sign.TextSize = 14.000
+Sign.TextWrapped = true
+Sign.MouseButton1Down:connect(function()
+	game.Players.LocalPlayer.Backpack["[StopSign]"].Handle.Size = Vector3.new(50, 50, 50)
+end)
+
+PitchFork.Name = "PitchFork"
+PitchFork.Parent = Frame
+PitchFork.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+PitchFork.BorderColor3 = Color3.fromRGB(15, 15, 15)
+PitchFork.Position = UDim2.new(0.701863348, 0, 0.0505836569, 0)
+PitchFork.Size = UDim2.new(0, 83, 0, 32)
+PitchFork.Font = Enum.Font.RobotoCondensed
+PitchFork.Text = "PitchFork"
+PitchFork.TextColor3 = Color3.fromRGB(255, 255, 255)
+PitchFork.TextSize = 14.000
+Pitchfork.TextWrapped = true
+Pitchfork.MouseButton1Down:connect(function()
+	game.Players.LocalPlayer.Backpack["[Pitchfork]"].Handle.Size = Vector3.new(50, 50, 50)
+end)
+
+Animations.Name = "Animations"
+Animations.Parent = Frame
+Animations.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+Animations.BorderColor3 = Color3.fromRGB(31, 31, 31)
+Animations.Position = UDim2.new(-0.279503107, 0, 0.789883196, 0)
+Animations.Size = UDim2.new(0, 90, 0, 33)
+Animations.Font = Enum.Font.RobotoCondensed
+Animations.Text = "Animations"
+Animations.TextColor3 = Color3.fromRGB(255, 255, 255)
+Animations.TextSize = 14.000
+
+Bat.Name = "Bat"
+Bat.Parent = Frame
+Bat.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Bat.BorderColor3 = Color3.fromRGB(15, 15, 15)
+Bat.Position = UDim2.new(0.0402018875, 0, 0.252918273, 0)
+Bat.Size = UDim2.new(0, 75, 0, 32)
+Bat.Font = Enum.Font.SourceSans
+Bat.Text = "Bat"
+Bat.TextColor3 = Color3.fromRGB(255, 255, 255)
+Bat.TextSize = 14.000
+Bat.MouseButton1Down:connect(function()
+	game.Players.LocalPlayer.Backpack["[Bat]"].Handle.Size = Vector3.new(50, 50, 50)
+end)
+
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+TextButton.BorderColor3 = Color3.fromRGB(15, 15, 15)
+TextButton.Position = UDim2.new(0.701863348, 0, 0.256809324, 0)
+TextButton.Size = UDim2.new(0, 83, 0, 31)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "Shovel"
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextSize = 14.000
+TextButton.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextWrapped = true
+TextButton.MouseButton1Down:connect(function()
+	game.Players.LocalPlayer.Backpack["[Shovel]"].Handle.Size = Vector3.new(50, 50, 50)
+end)
